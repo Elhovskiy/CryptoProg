@@ -13,13 +13,10 @@ void GenerateKeyAndIV(const std::string& password, CryptoPP::SecByteBlock& key, 
     CryptoPP::SHA256 hash;
     CryptoPP::SecByteBlock hashedPassword(CryptoPP::SHA256::DIGESTSIZE);
 
-    // Генерация ключа из пароля
     hash.CalculateDigest(hashedPassword, reinterpret_cast<const CryptoPP::byte*>(password.data()), password.size());
 
-    // Первый блок используется как ключ
     key.Assign(hashedPassword, CryptoPP::AES::DEFAULT_KEYLENGTH);
 
-    // Остаток для IV
     iv.Assign(hashedPassword + CryptoPP::AES::DEFAULT_KEYLENGTH, CryptoPP::AES::BLOCKSIZE);
 }
 
